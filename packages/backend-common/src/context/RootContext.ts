@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
+import { AnyApiFactory, AnyApiRef, ApiRef } from '@backstage/types';
 import { DateTime, Duration } from 'luxon';
 import { AbortSignal } from 'node-abort-controller';
 import {
   abortManually,
-  ContextAbortState,
   abortOnTimeout,
+  ContextAbortState,
 } from './features/abort';
 import { ContextApis, createApis } from './features/apis';
 import {
@@ -27,7 +28,7 @@ import {
   findInContextValues,
   unshiftContextValues,
 } from './features/values';
-import { AnyApiFactory, AnyApiRef, ApiRef, Context } from './types';
+import { Context } from './types';
 
 // The context value key used for holding abort related state
 const abortKey = Symbol('Context.abort');

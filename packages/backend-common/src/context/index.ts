@@ -15,10 +15,4 @@
  */
 
 export { RootContext } from './RootContext';
-export type {
-  Context,
-  ApiRef,
-  AnyApiRef,
-  ApiFactory,
-  AnyApiFactory,
-} from './types';
+export type { Context } from './types';

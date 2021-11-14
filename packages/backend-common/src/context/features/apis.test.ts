@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { AnyApiFactory } from '../types';
+import { AnyApiFactory } from '@backstage/types';
 import { createApis } from './apis';
 import { allPermutations } from './testutil';
 

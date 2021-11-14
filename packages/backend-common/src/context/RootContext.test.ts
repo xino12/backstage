@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+import { AnyApiFactory } from '@backstage/types';
 import { Duration } from 'luxon';
 import { RootContext } from './RootContext';
-import { AnyApiFactory } from './types';
 
 describe('RootContext', () => {
   it('can perform a manual abort', async () => {

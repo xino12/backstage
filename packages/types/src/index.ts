@@ -20,5 +20,13 @@
  * @packageDocumentation
  */
 
+export type {
+  AnyApiFactory,
+  AnyApiRef,
+  ApiFactory,
+  ApiRef,
+  createApiFactory,
+  TypesToApiRefs,
+} from './api';
 export type { JsonArray, JsonObject, JsonPrimitive, JsonValue } from './json';
 export type { Observable, Observer, Subscription } from './observable';

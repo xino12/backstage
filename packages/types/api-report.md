@@ -4,6 +4,52 @@
 
 ```ts
 // @public
+export type AnyApiFactory = ApiFactory<
+  unknown,
+  unknown,
+  {
+    [key in string]: unknown;
+  }
+>;
+
+// @public
+export type AnyApiRef = ApiRef<unknown>;
+
+// @public
+export type ApiFactory<
+  Api,
+  Impl extends Api,
+  Deps extends {
+    [name in string]: unknown;
+  },
+> = {
+  api: ApiRef<Api>;
+  deps: TypesToApiRefs<Deps>;
+  factory(deps: Deps): Impl;
+};
+
+// @public
+export type ApiRef<T> = {
+  id: string;
+  T: T;
+};
+
+// @public
+export function createApiFactory<
+  Api,
+  Impl extends Api,
+  Deps extends {
+    [name in string]: unknown;
+  },
+>(factory: ApiFactory<Api, Impl, Deps>): ApiFactory<Api, Impl, Deps>;
+
+// @public
+export function createApiFactory<Api, Impl extends Api>(
+  api: ApiRef<Api>,
+  instance: Impl,
+): ApiFactory<Api, Impl, {}>;
+
+// @public
 export interface JsonArray extends Array<JsonValue> {}
 
 // @public
@@ -39,5 +85,10 @@ export type Observer<T> = {
 export type Subscription = {
   unsubscribe(): void;
   readonly closed: boolean;
+};
+
+// @public
+export type TypesToApiRefs<T> = {
+  [key in keyof T]: ApiRef<T[key]>;
 };
 ```

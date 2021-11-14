@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+import { AnyApiFactory, AnyApiRef } from '@backstage/types';
 import mapValues from 'lodash/mapValues';
-import { AnyApiRef, AnyApiFactory } from '../types';
 
 /**
  * A set of API instances, keyed by their apiRef ID.

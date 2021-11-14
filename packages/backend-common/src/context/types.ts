@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { AnyApiFactory, AnyApiRef, ApiRef } from '@backstage/types';
 import { DateTime, Duration } from 'luxon';
 
 /**
@@ -68,18 +69,19 @@ export interface Context {
    *               if any, and the factories for new APIs to instantiate.
    * @remarks
    *
-   * The argument list may contain both {@link ApiRef} and {@link ApiFactory}
-   * entries.
+   * The argument list may contain both {@link @backstage/types#ApiRef} and
+   * {@link @backstage/types#ApiFactory} entries.
    *
-   * Each {@link ApiRef} implies an expectation that the existing context must
-   * have that API present and resolvable, and that the returned context will
-   * have that exact same instance passed through to be resolvable. If the
-   * existing context did not have that API present, an error will be thrown.
+   * Each {@link @backstage/types#ApiRef} implies an expectation that the
+   * existing context must have that API present and resolvable, and that the
+   * returned context will have that exact same instance passed through to be
+   * resolvable. If the existing context did not have that API present, an error
+   * will be thrown.
    *
-   * Each {@link ApiFactory} implies that the returned context shall have an
-   * instance of that API created and present. The dependencies of that factory
-   * may be among any of the existing context's resolvable APIs, or among the
-   * other given factories.
+   * Each {@link @backstage/types#ApiFactory} implies that the returned context
+   * shall have an instance of that API created and present. The dependencies of
+   * that factory may be among any of the existing context's resolvable APIs, or
+   * among the other given factories.
    */
   withApis(...apis: Array<AnyApiRef | AnyApiFactory>): Context;
 
