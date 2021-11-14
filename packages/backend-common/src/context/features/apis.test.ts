@@ -187,4 +187,31 @@ describe('createApis', () => {
     expect(result.get('a')).toBe(1);
     expect(result.get('b')).toBeUndefined();
   });
+
+  it('prefers to resolve factory deps from other factories, rather than from previous apis', () => {
+    const apiA: AnyApiFactory = {
+      api: { id: 'a', T: undefined },
+      deps: {},
+      factory: () => 'the old A',
+    };
+
+    let result = createApis([apiA]);
+
+    const apiAReplacement: AnyApiFactory = {
+      api: { id: 'a', T: undefined },
+      deps: {},
+      factory: () => 'the new A',
+    };
+
+    const apiB: AnyApiFactory = {
+      api: { id: 'b', T: undefined },
+      deps: { ai: apiA.api },
+      factory: ({ ai }) => `read from ${ai}`,
+    };
+
+    result = createApis([apiAReplacement, apiB], result);
+
+    expect(result.get('a')).toBe('the new A');
+    expect(result.get('b')).toBe('read from the new A');
+  });
 });

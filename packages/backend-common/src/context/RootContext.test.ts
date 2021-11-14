@@ -65,4 +65,17 @@ describe('RootContext', () => {
     expect(ctx.api(apiA.api)).toBe(2);
     expect(ctx.api(apiB.api)).toBe(1);
   });
+
+  it('can hold values', () => {
+    const ctx1 = RootContext.create().withValue('a', 1);
+
+    expect(ctx1.value('a')).toBe(1);
+
+    const ctx2 = ctx1.withValue('b', 2).withValue('a', 2);
+
+    expect(ctx1.value('a')).toBe(1);
+    expect(ctx1.value('b')).toBeUndefined();
+    expect(ctx2.value('a')).toBe(2);
+    expect(ctx2.value('b')).toBe(2);
+  });
 });

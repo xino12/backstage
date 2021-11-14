@@ -33,8 +33,8 @@ function isFactory(item: AnyApiRef | AnyApiFactory): item is AnyApiFactory {
  * Creates a new set of API instances, based on either transferring over from a
  * previously existing set, or by instantiating new ones from factories.
  *
- * @param apiRefsAndFactories - The refs factories for the APIs that should be
- *                              present in the new set
+ * @param apiRefsAndFactories - The refs and factories for the APIs that should
+ *                              be present in the new set
  * @param previous - The previous set of APIs
  * @returns A new set of APIs, transferred or instantiated
  */
