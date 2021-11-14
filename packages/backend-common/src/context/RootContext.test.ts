@@ -16,6 +16,7 @@
 
 import { Duration } from 'luxon';
 import { RootContext } from './RootContext';
+import { AnyApiFactory } from './types';
 
 describe('RootContext', () => {
   it('can perform a manual abort', async () => {
@@ -45,5 +46,23 @@ describe('RootContext', () => {
     expect(delta).toBeGreaterThan(100);
     expect(delta).toBeLessThan(300);
     expect(cb).toBeCalledTimes(2);
+  });
+
+  it('can hold APIs', () => {
+    const apiB: AnyApiFactory = {
+      api: { id: 'b', T: undefined },
+      deps: {},
+      factory: () => 1,
+    };
+
+    const apiA: AnyApiFactory = {
+      api: { id: 'a', T: undefined },
+      deps: { bi: apiB.api },
+      factory: ({ bi }) => (bi as any) + 1,
+    };
+
+    const ctx = RootContext.create().withApis(apiA, apiB);
+    expect(ctx.api(apiA.api)).toBe(2);
+    expect(ctx.api(apiB.api)).toBe(1);
   });
 });

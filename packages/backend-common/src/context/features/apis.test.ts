@@ -15,7 +15,7 @@
  */
 
 import { AnyApiFactory } from '../types';
-import { createApis } from './api';
+import { createApis } from './apis';
 import { allPermutations } from './testutil';
 
 describe('createApis', () => {
@@ -64,8 +64,8 @@ describe('createApis', () => {
 
     const apiA: AnyApiFactory = {
       api: { id: 'a', T: undefined },
-      deps: { b: apiB.api },
-      factory: ({ b }) => (b as any) + 1,
+      deps: { bi: apiB.api },
+      factory: ({ bi }) => (bi as any) + 1,
     };
 
     for (const factories of allPermutations([apiA, apiB])) {

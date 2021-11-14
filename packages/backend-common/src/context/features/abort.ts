@@ -17,14 +17,16 @@
 import { DateTime, Duration } from 'luxon';
 import { AbortController, AbortSignal } from 'node-abort-controller';
 
-export type AbortState = {
+export type ContextAbortState = {
   signal: AbortSignal;
   promise: Promise<void>;
   deadline: DateTime | undefined;
   abort: () => void;
 };
 
-export function abortManually(previous?: AbortState | undefined): AbortState {
+export function abortManually(
+  previous?: ContextAbortState | undefined,
+): ContextAbortState {
   const controller = new AbortController();
   const abort = controller.abort.bind(controller);
   previous?.signal.addEventListener('abort', abort);
@@ -39,26 +41,28 @@ export function abortManually(previous?: AbortState | undefined): AbortState {
   };
 }
 
-export function abortTimeout(
+export function abortOnTimeout(
   timeout: Duration,
-  previous?: AbortState | undefined,
-): AbortState {
+  previous?: ContextAbortState | undefined,
+): ContextAbortState {
   const deadline = DateTime.now().plus(timeout);
   if (previous?.deadline && deadline > previous.deadline) {
     return previous;
   }
 
   const controller = new AbortController();
-  const abort = controller.abort.bind(controller);
 
   const timeoutHandle = setTimeout(() => {
     controller.abort();
   }, timeout.as('milliseconds'));
 
-  previous?.signal.addEventListener('abort', () => {
+  const abort = () => {
+    previous?.signal.removeEventListener('abort', abort);
     clearTimeout(timeoutHandle);
     controller.abort();
-  });
+  };
+
+  previous?.signal.addEventListener('abort', abort);
 
   return {
     signal: controller.signal,

@@ -16,8 +16,12 @@
 
 import { DateTime, Duration } from 'luxon';
 import { AbortSignal } from 'node-abort-controller';
-import { abortManually, AbortState, abortTimeout } from './features/abort';
-import { ContextApis, createApis } from './features/api';
+import {
+  abortManually,
+  ContextAbortState,
+  abortOnTimeout,
+} from './features/abort';
+import { ContextApis, createApis } from './features/apis';
 import {
   ContextValues,
   findInContextValues,
@@ -47,7 +51,7 @@ export class RootContext implements Context {
    * or may not make derived contexts out of it.
    */
   static create() {
-    return new RootContext(undefined).withValue<AbortState>(
+    return new RootContext(undefined).withValue<ContextAbortState>(
       abortKey,
       abortManually(),
     );
@@ -57,22 +61,21 @@ export class RootContext implements Context {
    * {@inheritdoc Context.abortSignal}
    */
   public get abortSignal(): AbortSignal {
-    console.log(this.values);
-    return this.value<AbortState>(abortKey)!.signal;
+    return this.value<ContextAbortState>(abortKey)!.signal;
   }
 
   /**
    * {@inheritdoc Context.abortPromise}
    */
   public get abortPromise(): Promise<void> {
-    return this.value<AbortState>(abortKey)!.promise;
+    return this.value<ContextAbortState>(abortKey)!.promise;
   }
 
   /**
    * {@inheritdoc Context.deadline}
    */
   public get deadline(): DateTime | undefined {
-    return this.value<AbortState>(abortKey)!.deadline;
+    return this.value<ContextAbortState>(abortKey)!.deadline;
   }
 
   private constructor(private readonly values: ContextValues) {}
@@ -81,7 +84,7 @@ export class RootContext implements Context {
    * {@inheritdoc Context.withAbort}
    */
   withAbort(): { ctx: Context; abort: () => void } {
-    const state = abortManually(this.value<AbortState>(abortKey));
+    const state = abortManually(this.value<ContextAbortState>(abortKey));
     return {
       ctx: this.withValue(abortKey, state),
       abort: state.abort,
@@ -92,8 +95,8 @@ export class RootContext implements Context {
    * {@inheritdoc Context.withTimeout}
    */
   withTimeout(timeout: Duration): Context {
-    return this.withValue<AbortState>(abortKey, previous =>
-      abortTimeout(timeout, previous),
+    return this.withValue<ContextAbortState>(abortKey, previous =>
+      abortOnTimeout(timeout, previous),
     );
   }
 
