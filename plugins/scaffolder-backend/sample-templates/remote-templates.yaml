@@ -9,6 +9,7 @@ spec:
     - https://github.com/backstage/software-templates/blob/main/scaffolder-templates/create-react-app/template.yaml
     - https://github.com/backstage/software-templates/blob/main/scaffolder-templates/docs-template/template.yaml
     - https://github.com/backstage/software-templates/blob/main/scaffolder-templates/pull-request/template.yaml
+    - https://github.com/xino12/software-templates/blob/main/scaffolder-templates/delegation-template/template.yaml
     - https://github.com/backstage/software-templates/blob/main/scaffolder-templates/react-ssr-template/template.yaml
     - https://github.com/backstage/software-templates/blob/main/scaffolder-templates/springboot-grpc-template/template.yaml
     - https://github.com/backstage/software-templates/blob/main/scaffolder-templates/v1beta2-demo/template.yaml
