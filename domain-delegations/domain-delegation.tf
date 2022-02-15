@@ -1,10 +1,10 @@
 # OPS-REQ - {{ values.subdomain }}
-test
-a
+testa
+ab
 
-module "test-beescloud-com" {
+module "testa-beescloud-com" {
   source   = "../modules/gcp-zone"
   zone_id  = data.aws_route53_zone.beescloud_com.zone_id
-  hostname = "test."
-  ns       = "a"
+  hostname = "testa."
+  ns       = "ab"
 }
