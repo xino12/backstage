@@ -1,10 +1,10 @@
 # OPS-REQ - {{ values.subdomain }}
-test
+backstage-test
 a
 
-module "test-beescloud-com" {
+module "backstage-test-beescloud-com" {
   source   = "../modules/gcp-zone"
   zone_id  = data.aws_route53_zone.beescloud_com.zone_id
-  hostname = "test."
+  hostname = "backstage-test."
   ns       = "a"
 }
